@@ -1,0 +1,24 @@
+global:
+  resolve_timeout: 5m
+  pagerduty_url: "https://events.pagerduty.com/v2/enqueue"
+
+templates:
+  - '/etc/alertmanager/template/*.tmpl'
+
+route:
+  receiver: ayc  
+  group_by: ['alertname', 'cluster', 'service']
+  group_wait: 30s
+  group_interval: 5m
+  repeat_interval: 3h
+
+  routes:
+    - matchers:
+        - alertname="raspberry_pi_down"
+      receiver: ayc
+
+receivers:
+  - name: ayc
+    pagerduty_configs:
+      - service_key: be7c30bc72284f0bd1c19c27d44ca8f4
+    # https://events.eu.pagerduty.com/generic/2010-04-15/create_event.json

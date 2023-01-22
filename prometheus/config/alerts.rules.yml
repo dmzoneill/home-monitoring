@@ -1,0 +1,20 @@
+groups:
+- name: raspberry_pi_down
+  rules:
+  - alert: raspberry_pi_down
+    expr: up{job="ayc-rpi"} == 0
+    for: 3m
+    labels:
+      severity: page
+    annotations:
+      summary: raspberry pi down
+
+- name: webserver_down
+  rules:
+  - alert: webserver_down
+    expr: up{job="feeditout"} == 0
+    for: 3m
+    labels:
+      severity: page
+    annotations:
+      summary: web server down
